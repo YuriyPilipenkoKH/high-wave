@@ -115,6 +115,7 @@ export default function Home() {
           padding: 20,
           fontSize: 18,
         }}
+        className="cursor-pointer"
       >
         🎙 Hold to Talk
       </button>
