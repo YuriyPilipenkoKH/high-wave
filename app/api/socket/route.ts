@@ -3,7 +3,7 @@ import { Server } from "socket.io";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  if (!(global as any).io) {
+  if (!global.io) {
     const io = new Server(3001, {
       cors: { origin: "*" },
     });
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
       });
     });
 
-    (global as any).io = io;
+    global.io = io;
   }
 
   return new Response("Socket running");
