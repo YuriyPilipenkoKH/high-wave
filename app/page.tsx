@@ -17,19 +17,20 @@ export default function Home() {
   const [connected, setConnected] = useState(false);
   const [micActive, setMicActive] = useState(false);
   const [volume, setVolume] = useState(0);
-  const [logs, setLogs] = useState<string[]>([]);
+
 
   const roomId = "radio-room";
 
   const addLog = (msg: string) => {
     console.log(msg);
-    setLogs((prev) => [msg, ...prev.slice(0, 10)]);
-  };
+    };
 
   useEffect(() => {
     fetch("/api/socket");
 
-    socketRef.current = io("http://localhost:3001");
+    socketRef.current = io(process.env.NEXT_PUBLIC_SOCKET_URL!, {
+      transports: ["websocket"],
+    });
 
     socketRef.current.on("connect", () => {
       setConnected(true);
