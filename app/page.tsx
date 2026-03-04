@@ -138,21 +138,23 @@ export default function Home() {
     addLog("📡 Sent offer");
   }
 
-  function handleMouseDown() {
-    if (streamRef.current) {
-      streamRef.current.getAudioTracks()[0].enabled = true;
-      setMicActive(true);
-      addLog("🎙 Talking...");
-    }
-  }
 
-  function handleMouseUp() {
-    if (streamRef.current) {
-      streamRef.current.getAudioTracks()[0].enabled = false;
-      setMicActive(false);
-      addLog("🔇 Mic muted");
-    }
+
+  function toggleMic() {
+  if (!streamRef.current) return;
+
+  const track = streamRef.current.getAudioTracks()[0];
+  const newState = !track.enabled;
+
+  track.enabled = newState;
+  setMicActive(newState);
+
+  if (newState) {
+    addLog("🎙 Mic enabled");
+  } else {
+    addLog("🔇 Mic muted");
   }
+}
 
   return (
     <div style={{ padding: 40, fontFamily: "sans-serif" }}>
@@ -193,8 +195,7 @@ export default function Home() {
       <br /><br />
 
       <button
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
+       onClick={toggleMic}
         style={{
           padding: 20,
           fontSize: 18,
@@ -202,12 +203,12 @@ export default function Home() {
           color: "white",
         }}
       >
-        🎙 Hold to Talk
+        {micActive ? "🔴 Mic ON (Click to mute)" : "⚫ Mic OFF (Click to speak)"}
       </button>
 
       <hr style={{ margin: "30px 0" }} />
 
-      <h3>Logs</h3>
+      {/* <h3>Logs</h3>
       <div
         style={{
           background: "#111",
@@ -221,7 +222,7 @@ export default function Home() {
         {logs.map((log, i) => (
           <div key={i}>{log}</div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
