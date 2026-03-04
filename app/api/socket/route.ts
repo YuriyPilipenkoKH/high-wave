@@ -2,7 +2,7 @@
 import { Server } from "socket.io";
 import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   if (!global.io) {
     const io = new Server(3001, {
       cors: { origin: "*" },
